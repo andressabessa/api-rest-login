@@ -272,6 +272,18 @@ class AuthController {
         });
       }
 
+      // Verificar se a conta está bloqueada
+      if (User.isAccountLocked(user)) {
+        const remainingTime = User.getRemainingLockTime(user);
+        const formattedTime = User.formatLockTime(remainingTime);
+        return res.status(401).json({
+          success: false,
+          error: 'ACCOUNT_LOCKED',
+          message: `Conta bloqueada. Tente novamente em ${formattedTime}`,
+          remainingTime
+        });
+      }
+
       return res.status(200).json({
         success: true,
         message: 'Token válido',
@@ -293,4 +305,4 @@ class AuthController {
   }
 }
 
-module.exports = AuthController; 
+module.exports = AuthController;

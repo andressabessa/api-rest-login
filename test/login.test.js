@@ -51,6 +51,15 @@ describe('API REST Login - Testes de Autenticação', () => {
   });
 
   describe('2. Login Inválido', () => {
+    beforeEach(async () => {
+      // Resetar usuário antes de cada teste
+      const testUser = await User.findByEmail('user@example.com');
+      if (testUser) {
+        testUser.loginAttempts = 0;
+        testUser.lockedUntil = null;
+      }
+    });
+
     it('deve retornar erro 401 com credenciais inválidas', async () => {
       const loginData = {
         email: 'user@example.com',
@@ -61,7 +70,7 @@ describe('API REST Login - Testes de Autenticação', () => {
         .post('/api/auth/login')
         .send(loginData)
         .expect(401);
-      console.log(response.body, 'response')
+
       expect(response.body).to.have.property('success', false);
       expect(response.body).to.have.property('error', 'INVALID_CREDENTIALS');
       expect(response.body).to.have.property('message').that.includes('Email ou senha inválidos');
@@ -90,10 +99,6 @@ describe('API REST Login - Testes de Autenticação', () => {
         password: 'senha_incorreta'
       };
 
-      // Resetar usuário antes do teste
-      let testUser = User.findByEmail('user@example.com');
-      if (testUser) User.resetLoginAttempts(testUser);
-
       // Primeira tentativa
       let response = await request(app)
         .post('/api/auth/login')
@@ -113,98 +118,103 @@ describe('API REST Login - Testes de Autenticação', () => {
         .post('/api/auth/login')
         .send(loginData)
         .expect(423);
-      expect(response.body).to.have.property('error', 'ACCOUNT_LOCKED');
+      expect(response.body.error).to.equal('ACCOUNT_LOCKED');
     });
   });
 
   describe('3. Bloquear Senha Após 3 Tentativas', () => {
-    beforeEach(() => {
-      // Resetar usuário antes de cada teste de bloqueio
-      const testUser = User.findByEmail('user@example.com');
-      if (testUser) User.resetLoginAttempts(testUser);
+    beforeEach(async () => {
+      // Garantir que o usuário está em um estado limpo antes de cada teste
+      const testUser = await User.findByEmail('user@example.com');
+      if (testUser) {
+        testUser.loginAttempts = 0;
+        testUser.lockedUntil = null;
+      }
     });
-
+  
     it('deve bloquear a conta após 3 tentativas inválidas', async () => {
       const loginData = {
         email: 'user@example.com',
         password: 'senha_incorreta'
       };
-
+  
       // Primeira tentativa
-      await request(app)
+      let response = await request(app)
         .post('/api/auth/login')
-        .send(loginData)
-        .expect(401);
-
+        .send(loginData);
+      
+      expect(response.status).to.equal(401);
+      expect(response.body.remainingAttempts).to.equal(2);
+  
       // Segunda tentativa
-      await request(app)
+      response = await request(app)
         .post('/api/auth/login')
-        .send(loginData)
-        .expect(401);
-
+        .send(loginData);
+      
+      expect(response.status).to.equal(401);
+      expect(response.body.remainingAttempts).to.equal(1);
+  
       // Terceira tentativa - deve bloquear
-      const response = await request(app)
+      response = await request(app)
         .post('/api/auth/login')
-        .send(loginData)
-        .expect(423);
-
+        .send(loginData);
+      
+      expect(response.status).to.equal(423);
       expect(response.body).to.have.property('success', false);
       expect(response.body).to.have.property('error', 'ACCOUNT_LOCKED');
       expect(response.body).to.have.property('message').that.includes('Conta bloqueada por 15 minutos');
       expect(response.body).to.have.property('remainingTime').that.is.a('number');
     });
-
+  
     it('deve manter a conta bloqueada mesmo com credenciais corretas', async () => {
-      // Resetar usuário antes do teste
-      const testUser = User.findByEmail('user@example.com');
-      if (testUser) User.resetLoginAttempts(testUser);
-
       const wrongData = {
         email: 'user@example.com',
         password: 'senha_incorreta'
       };
-
+  
+      // Bloquear a conta com 3 tentativas inválidas
       for (let i = 0; i < 3; i++) {
-        await request(app)
+        const response = await request(app)
           .post('/api/auth/login')
-          .send(wrongData)
-          .expect(i < 2 ? 401 : 423);
+          .send(wrongData);
+        
+        expect(response.status).to.equal(i < 2 ? 401 : 423);
       }
-
+  
       // Tentar login com credenciais corretas
       const correctData = {
         email: 'user@example.com',
         password: 'password'
       };
-
+  
       const response = await request(app)
         .post('/api/auth/login')
-        .send(correctData)
-        .expect(423);
-
+        .send(correctData);
+  
+      expect(response.status).to.equal(423);
       expect(response.body).to.have.property('success', false);
       expect(response.body).to.have.property('error', 'ACCOUNT_LOCKED');
       expect(response.body).to.have.property('message').that.includes('Conta bloqueada');
     });
-
+  
     it('deve permitir login após o período de bloqueio', async () => {
-      // Resetar usuário antes do teste
-      const testUser = User.findByEmail('user@example.com');
+      const testUser = await User.findByEmail('user@example.com');
       if (testUser) {
+        // Simular que o bloqueio expirou
         testUser.lockedUntil = new Date(Date.now() - 1000); // 1 segundo atrás
-        User.resetLoginAttempts(testUser);
+        testUser.loginAttempts = 0; // Resetar tentativas
       }
-
+  
       const loginData = {
         email: 'user@example.com',
         password: 'password'
       };
-
+  
       const response = await request(app)
         .post('/api/auth/login')
-        .send(loginData)
-        .expect(200);
-
+        .send(loginData);
+  
+      expect(response.status).to.equal(200);
       expect(response.body).to.have.property('success', true);
       expect(response.body).to.have.property('message', 'Login realizado com sucesso');
     });
@@ -258,8 +268,10 @@ describe('API REST Login - Testes de Autenticação', () => {
     it('deve verificar token válido', async () => {
       // Resetar usuário antes do teste
       const testUser = User.findByEmail('user@example.com');
-      if (testUser) User.resetLoginAttempts(testUser);
-      testUser.lockedUntil = null;
+      if (testUser) {
+        User.resetLoginAttempts(testUser);
+        testUser.lockedUntil = null;
+      }
 
       // Primeiro fazer login para obter token
       const loginData = {
@@ -326,4 +338,4 @@ describe('API REST Login - Testes de Autenticação', () => {
       expect(response.body).to.have.property('error', 'Route not found');
     });
   });
-}); 
+});

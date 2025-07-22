@@ -49,7 +49,13 @@ class User {
 
   static isAccountLocked(user) {
     if (!user.lockedUntil) return false;
-    return new Date() < user.lockedUntil;
+    const now = new Date();
+    const locked = now < user.lockedUntil;
+    if (!locked) {
+        // Se o tempo de bloqueio expirou, resetar as tentativas
+        this.resetLoginAttempts(user);
+    }
+    return locked;
   }
 
   static incrementLoginAttempts(user) {
@@ -99,4 +105,4 @@ class User {
   }
 }
 
-module.exports = User; 
+module.exports = User;
