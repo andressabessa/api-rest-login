@@ -34,6 +34,7 @@ Uma API REST simples de login com funcionalidades de autenticação e testes aut
 - **Mocha** - Framework de testes
 - **Supertest** - Testes de integração
 - **Chai** - Biblioteca de asserções
+- **k6** - Testes de performance
 
 ## 📋 Pré-requisitos
 
@@ -73,6 +74,9 @@ npm test
 # Executar testes em modo watch
 npm run test:watch
 ```
+# Testes de Performance com k6
+k6 run test/performance/login.perf.js
+
 
 ## 📚 Documentação da API
 
@@ -176,19 +180,17 @@ Os testes cobrem os seguintes cenários:
 ```
 api-rest-login/
 ├── src/
-│   ├── app.js                 # Aplicação principal
+│   ├── app.js
 │   ├── config/
-│   │   └── swagger.js         # Configuração do Swagger
 │   ├── controllers/
-│   │   └── authController.js  # Controlador de autenticação
 │   ├── models/
-│   │   └── User.js           # Modelo de usuário
 │   └── routes/
-│       └── auth.js           # Rotas de autenticação
 ├── test/
-│   └── auth.test.js          # Testes automatizados
+│   ├── functional/
+│   │   └── login.test.js      # Testes funcionais com Supertest
+│   └── performance/
+│       └── login.perf.js      # Teste de performance com k6
 ├── package.json
-├── .mocharc.json             # Configuração do Mocha
 └── README.md
 ```
 
