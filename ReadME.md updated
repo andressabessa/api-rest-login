@@ -6,45 +6,46 @@ Uma API REST simples de login com funcionalidades de autenticação, testes auto
 
 ### 1. Login com Sucesso
 
-* Autenticação com email e senha
-* Geração de token JWT
-* Retorno de dados do usuário
+- Autenticação com email e senha  
+- Geração de token JWT  
+- Retorno de dados do usuário
 
 ### 2. Login Inválido
 
-* Validação de credenciais incorretas
-* Contagem de tentativas restantes
-* Mensagens de erro apropriadas
+- Validação de credenciais incorretas  
+- Contagem de tentativas restantes  
+- Mensagens de erro apropriadas
 
 ### 3. Bloquear Senha Após 3 Tentativas
 
-* Bloqueio automático após 3 tentativas inválidas
-* Período de bloqueio de 15 minutos
-* Contagem regressiva do tempo restante
+- Bloqueio automático após 3 tentativas inválidas  
+- Período de bloqueio de 15 minutos  
+- Contagem regressiva do tempo restante
 
 ### 4. Lembrar Senha
 
-* Solicitação de recuperação por email
-* Validação de usuário existente
-* Simulação de envio de email
+- Solicitação de recuperação por email  
+- Validação de usuário existente  
+- Simulação de envio de email
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **Node.js** - Runtime JavaScript
-* **Express.js** - Framework web
-* **bcryptjs** - Criptografia de senhas
-* **jsonwebtoken** - Autenticação JWT
-* **Swagger** - Documentação da API
-* **Mocha** - Framework de testes
-* **Supertest** - Testes de integração
-* **Chai** - Biblioteca de asserções
-* **k6** - Testes de performance
+- **Node.js** - Runtime JavaScript  
+- **Express.js** - Framework web  
+- **bcryptjs** - Criptografia de senhas  
+- **jsonwebtoken** - Autenticação JWT  
+- **Swagger** - Documentação da API  
+- **Mocha** - Framework de testes  
+- **Supertest** - Testes de integração  
+- **Chai** - Biblioteca de asserções  
+- **k6** - Testes de performance  
 
 ## 📋 Pré-requisitos
 
-* Node.js (versão 14 ou superior)
-* npm ou yarn
-* k6 instalado globalmente ([https://k6.io/docs/getting-started/installation/](https://k6.io/docs/getting-started/installation/))
+- Node.js (versão 14 ou superior)  
+- npm ou yarn  
+- k6 instalado globalmente:  
+  [https://k6.io/docs/getting-started/installation/](https://k6.io/docs/getting-started/installation/)
 
 ## 🔧 Instalação
 
@@ -53,7 +54,7 @@ Uma API REST simples de login com funcionalidades de autenticação, testes auto
 ```bash
 git clone <url-do-repositorio>
 cd api-rest-login
-```
+````
 
 2. Instale as dependências:
 
@@ -103,6 +104,8 @@ k6-reporter reports/performance.json -o reports/performance.html
 
 ## 📂 Documentação da API
 
+A documentação interativa da API está disponível via Swagger:
+
 **URL:** `http://localhost:3000/api-docs`
 
 ### Endpoints Disponíveis
@@ -124,13 +127,29 @@ Realizar login do usuário.
 
 Solicitar lembrança de senha.
 
+**Body:**
+
+```json
+{
+  "email": "user@example.com"
+}
+```
+
 #### GET `/api/auth/verify-token`
 
 Verificar se o token é válido.
 
+**Headers:**
+
+```
+Authorization: Bearer <token>
+```
+
 #### GET `/health`
 
 Verificar status da API.
+
+---
 
 ## 🧰 Testes Automatizados
 
@@ -162,6 +181,8 @@ Verificar status da API.
 * ✅ Token válido
 * ✅ Token ausente
 * ✅ Token inválido
+
+---
 
 ## 📊 Testes de Performance com k6
 
@@ -198,9 +219,19 @@ export default function () {
 
 ### Relatórios
 
-* Terminal (padrão): resumo de métricas
-* JSON: `--out json=reports/performance.json`
-* HTML (com `k6-reporter`): `k6-reporter reports/performance.json -o reports/performance.html`
+* **Terminal (padrão):** resumo de métricas
+* **JSON:**
+
+  ```bash
+  --out json=reports/performance.json
+  ```
+* **HTML (usando k6-reporter):**
+
+  ```bash
+  k6-reporter reports/performance.json -o reports/performance.html
+  ```
+
+---
 
 ## 🔐 Dados de Teste
 
@@ -208,6 +239,8 @@ export default function () {
 
 * **Email:** `user@example.com`
 * **Senha:** `password`
+
+---
 
 ## 📁 Estrutura do Projeto
 
@@ -229,6 +262,8 @@ api-rest-login/
 └── README.md
 ```
 
+---
+
 ## 🔧 Configurações
 
 ### Variáveis de Ambiente
@@ -242,27 +277,40 @@ api-rest-login/
 * **Tempo de bloqueio:** 15 minutos
 * **Expiração do token:** 24 horas
 
+---
+
 ## ⚠️ Observações Importantes
 
-Este projeto é destinado apenas para estudos de Teste de Software e **não deve ser usado em produção**:
+⚠️ **Este projeto é destinado apenas para estudos de Teste de Software e não deve ser usado em produção.**
 
 * Os dados são armazenados em memória
-* A chave JWT está hardcoded
+* A chave JWT está hardcoded no código
 * Não há validação robusta de entrada
-* Não há controle de limite de requisições (rate limiting)
+* Não há rate limiting implementado
+
+---
 
 ## 🤝 Contribuição
 
 1. Faça um fork do projeto
-2. Crie uma branch (`git checkout -b feature/AmazingFeature`)
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
 3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
+
+---
 
 ## 📋 Licença
 
 Este projeto está sob a licença MIT.
 
+---
+
 ## 📞 Suporte
 
 Para dúvidas ou sugestões, abra uma issue no repositório.
+
+```
+
+---
+
