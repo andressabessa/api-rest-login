@@ -1,0 +1,7 @@
+{
+  "timeout": 10000,
+  "reporter": "spec",
+  "colors": true,
+  "recursive": true,
+  "extension": ["test.js", "spec.js"]
+} 
