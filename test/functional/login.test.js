@@ -1,7 +1,7 @@
 const request = require('supertest');
 const { expect } = require('chai');
-const app = require('../src/app');
-const User = require('../src/models/User');
+const app = require('../../src/app');
+const User = require('../../src/models/User');
 
 describe('API REST Login - Testes de Autenticação', () => {
   let authToken;
