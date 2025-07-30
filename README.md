@@ -2,6 +2,9 @@
 
 Uma API REST simples de login com funcionalidades de autenticação e testes automatizados, desenvolvida para estudos de Teste de Software.
 
+🌐 Aplicação Web Frontend
+Este projeto também inclui uma aplicação web frontend simples, construída com EJS e servida por um servidor Express. Ela consome a API de autenticação para gerenciar o processo de login e registro de usuários.
+
 ## 🚀 Funcionalidades
 
 ### 1. Login com Sucesso
@@ -27,8 +30,10 @@ Uma API REST simples de login com funcionalidades de autenticação e testes aut
 ## 🛠️ Tecnologias Utilizadas
 
 - **Node.js** - Runtime JavaScript
-- **Express.js** - Framework web
-- **bcryptjs** - Criptografia de senhas
+- **Express.js** - Framework web (para Backend API e Frontend Server)
+- **EJS (Embedded JavaScript)** - Motor de template para o Frontend
+- **MaterializeCSS** - Framework CSS para estilização do Frontend
+- **JavaScript (Fetch API)** - Para consumo da API no Frontend
 - **jsonwebtoken** - Autenticação JWT
 - **Swagger** - Documentação da API
 - **Mocha** - Framework de testes
@@ -77,6 +82,36 @@ npm run test:watch
 # Testes de Performance com k6
 k6 run test/performance/login.perf.js
 
+## 🚀 Como Executar
+Este projeto é composto por dois servidores independentes (Backend API e Frontend Web). Ambos precisam estar rodando para a aplicação funcionar completamente.
+
+Configuração do Ambiente (.env)
+Crie um arquivo .env na raiz de cada subprojeto (backend/ e frontend/) com as seguintes variáveis:
+
+# backend/.env:
+PORT=3000
+FRONTEND_URL=http://localhost:4000
+
+# frontend/.env:
+PORT=4000
+API_BASE_URL_DEV=http://localhost:3000
+
+# Iniciar Servidores
+Iniciar o Servidor Backend (API):
+Abra um terminal, navegue até a pasta do seu backend (ex: cd backend/) e execute:
+
+npm start # ou npm run dev, dependendo do seu script de inicialização
+
+Você deverá ver a mensagem API Server running on port 3000.
+
+Iniciar o Servidor Frontend (Web):
+Abra outro terminal, navegue até a pasta do seu frontend (ex: cd frontend/) e execute:
+
+npm start # ou node app.js, dependendo do seu script de inicialização
+
+Você deverá ver a mensagem Front-end rodando em http://localhost:4000.
+
+Após ambos os servidores estarem rodando, acesse a aplicação pelo navegador: http://localhost:4000/.
 
 ## 📚 Documentação da API
 
@@ -179,26 +214,34 @@ Os testes cobrem os seguintes cenários:
 
 ```
 api-rest-login/
-├── src/
-│   ├── app.js
-│   ├── config/
-│   ├── controllers/
-│   ├── models/
-│   └── routes/
-├── test/
-│   ├── functional/
-│   │   └── login.test.js      # Testes funcionais com Supertest
-│   └── performance/
-│       └── login.perf.js      # Teste de performance com k6
-├── package.json
+├── src/                  # Pasta do servidor API
+│   │   ├── app.js
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── models/
+│   │   └── routes/
+│   ├── test/
+│   │   └── ...
+│   ├── .env                  # Variáveis de ambiente do Backend
+│   └── package.json
+├── client/                 # Pasta da aplicação web Frontend
+│   ├── app.js                # Servidor Express para o Frontend
+│   ├── routes/
+│   │   └── login.js          # Rotas de renderização de páginas
+│   ├── views/
+│   │   ├── login.ejs         # Templates EJS
+│   │   ├── home.ejs
+│   │   └── remember-password.ejs
+│   ├── public/
+│   │   ├── css/
+│   │   │   └── style.css
+│   │   └── js/
+│   │       └── login.js      # Script JavaScript do frontend
+│   ├── .env                  # Variáveis de ambiente do Frontend
+│   └── package.json
+├── package.json (geral)      
 └── README.md
 ```
-
-## 🔧 Configurações
-
-### Variáveis de Ambiente
-- `PORT` - Porta do servidor (padrão: 3000)
-- `JWT_SECRET` - Chave secreta para JWT (configurada no código)
 
 ### Configurações de Segurança
 - **Máximo de tentativas:** 3
