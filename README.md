@@ -98,16 +98,16 @@ API_BASE_URL_DEV=http://localhost:3000
 
 # Iniciar Servidores
 Iniciar o Servidor Backend (API):
-Abra um terminal, navegue até a pasta do seu backend (ex: cd backend/) e execute:
+Abra um terminal, navegue até a pasta do seu backend (ex: cd src/) e execute:
 
-npm start # ou npm run dev, dependendo do seu script de inicialização
+´´npm run dev``
 
 Você deverá ver a mensagem API Server running on port 3000.
 
 Iniciar o Servidor Frontend (Web):
-Abra outro terminal, navegue até a pasta do seu frontend (ex: cd frontend/) e execute:
+Abra outro terminal, navegue até a pasta do seu frontend (ex: cd client/) e execute:
 
-npm start # ou node app.js, dependendo do seu script de inicialização
+´´npm run dev``
 
 Você deverá ver a mensagem Front-end rodando em http://localhost:4000.
 
