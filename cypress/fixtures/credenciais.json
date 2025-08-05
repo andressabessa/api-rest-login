@@ -1,0 +1,14 @@
+{
+    "valida": {
+      "usuario": "user@example.com",
+      "senha": "password"
+    },
+    "invalida1": {
+        "usuario": "user1@example.com",
+        "senha": "passwords"
+    },
+    "invalida2": {
+    "usuario": "user@example.com",
+    "senha": "passwords"
+    }
+  }

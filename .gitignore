@@ -149,3 +149,6 @@ jspm_packages/
 .Trashes
 ehthumbs.db
 Thumbs.db 
+
+#Reports HTML
+cypress/reports/html

@@ -4,6 +4,7 @@
   "description": "API REST simples de login com funcionalidades de autenticação e testes automatizados",
   "main": "src/app.js",
   "scripts": {
+    "cy:open": "cypress run",
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "mocha test/**/*.test.js --timeout 10000",
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "chai": "^4.3.7",
+    "cypress-mochawesome-reporter": "^4.0.0",
     "mocha": "^10.2.0",
     "nodemon": "^3.0.1",
     "nyc": "^17.1.0",

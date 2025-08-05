@@ -1,10 +1,11 @@
 // Carrega as variáveis de ambiente do arquivo .env
-require('dotenv').config();
+require('dotenv').config()
+
 
 const app = require('./app'); // Importa a configuração do aplicativo Express (API)
 
 // A porta para o backend (API) - diferente do frontend
-const PORT = process.env.PORT || 3000; // Definido como 3000
+const PORT = process.env.PORT_BACK; // Definido como 3000
 
 app.listen(PORT, () => {
   console.log(`🚀 API Server running on port ${PORT}`);

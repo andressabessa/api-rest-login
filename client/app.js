@@ -1,11 +1,11 @@
-require('dotenv').config();
+require('dotenv').config({path: ['../.env']})
 
 const express = require('express');
 const path = require('path');
 const loginRoutes = require('./routes/login');
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT_FRONT || 4000;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
