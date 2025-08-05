@@ -1,0 +1,114 @@
+body {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  font-family: 'Roboto', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.card {
+  border-radius: 16px;
+  padding: 40px 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  width: 350px;
+  background: #fff;
+  text-align: center;
+}
+
+div.card-content .card-title {
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.input-field {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.input-field i.material-icons.prefix {
+  position: absolute;
+  left: 0px;
+  top: 12px;
+  color: #764ba2;
+  font-size: 20px;
+  pointer-events: none;
+  z-index: 2;
+  width: 35px;
+  text-align: center;
+}
+
+.input-field input {
+  padding-left: 10px !important;
+  box-sizing: border-box;
+  width: 100%;
+  border-bottom: 1px solid #ddd !important;
+  margin-bottom: 0 !important;
+  height: 3rem !important;
+  outline: none;
+  text-indent: 0;
+}
+
+.input-field input::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+.input-field input:focus {
+  border-bottom: 1px solid #667eea !important;
+  box-shadow: 0 1px 0 0 #667eea !important;
+}
+
+.input-field input:focus + label {
+  color: #667eea !important;
+}
+
+.input-field label {
+  display: none;
+}
+
+button.btn {
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  width: 100%;
+  border-radius: 10px;
+  padding: 16px 0;
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: 1.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 18px rgba(102, 126, 234, 0.5);
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px; /* Adicionado para garantir o alinhamento vertical com flexbox */
+}
+
+button.btn:hover {
+  box-shadow: 0 10px 20px rgba(90, 103, 216, 0.7);
+  transform: translateY(-3px);
+}
+
+.forgot-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #764ba2;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+  color: #5a67d8;
+  text-decoration: underline;
+}
+
+.card-panel.red {
+  margin-bottom: 20px;
+}
