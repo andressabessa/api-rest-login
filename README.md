@@ -1,274 +1,123 @@
 # API REST Login
 
-Uma API REST simples de login com funcionalidades de autenticação e testes automatizados, desenvolvida para estudos de Teste de Software.
+## Introdução
 
-🌐 Aplicação Web Frontend
-Este projeto também inclui uma aplicação web frontend simples, construída com EJS e servida por um servidor Express. Ela consome a API de autenticação para gerenciar o processo de login e registro de usuários.
+Este repositório contém uma API REST simples de autenticação de login, desenvolvida para fins de estudo e demonstração de práticas de testes automatizados (funcionais e de performance). O projeto não utiliza banco de dados, armazenando os dados em memória, e inclui exemplos de testes automatizados com Mocha/Supertest e testes de carga com K6.
 
-## 🚀 Funcionalidades
+Repositório: [https://github.com/andressabessa/api-rest-login](https://github.com/andressabessa/api-rest-login)
 
-### 1. Login com Sucesso
-- Autenticação com email e senha
-- Geração de token JWT
-- Retorno de dados do usuário
+---
 
-### 2. Login Inválido
-- Validação de credenciais incorretas
-- Contagem de tentativas restantes
-- Mensagens de erro apropriadas
+## Tecnologias utilizadas
 
-### 3. Bloquear Senha Após 3 Tentativas
-- Bloqueio automático após 3 tentativas inválidas
-- Período de bloqueio de 15 minutos
-- Contagem regressiva do tempo restante
+- **Node.js** e **Express** — Backend da API REST
+- **bcryptjs** — Hash de senhas
+- **jsonwebtoken** — Autenticação JWT
+- **Swagger** — Documentação automática da API
+- **Mocha** e **Chai** — Testes automatizados (funcionais)
+- **Supertest** — Testes de integração HTTP
+- **K6** — Testes de performance/carga
+- **Nodemon** — Hot reload em desenvolvimento
 
-### 4. Lembrar Senha
-- Solicitação de recuperação por email
-- Validação de usuário existente
-- Simulação de envio de email
+---
 
-## 🛠️ Tecnologias Utilizadas
+## Estrutura do repositório
 
-- **Node.js** - Runtime JavaScript
-- **Express.js** - Framework web (para Backend API e Frontend Server)
-- **EJS (Embedded JavaScript)** - Motor de template para o Frontend
-- **MaterializeCSS** - Framework CSS para estilização do Frontend
-- **JavaScript (Fetch API)** - Para consumo da API no Frontend
-- **jsonwebtoken** - Autenticação JWT
-- **Swagger** - Documentação da API
-- **Mocha** - Framework de testes
-- **Supertest** - Testes de integração
-- **Chai** - Biblioteca de asserções
-- **k6** - Testes de performance
-
-## 📋 Pré-requisitos
-
-- Node.js (versão 14 ou superior)
-- npm ou yarn
-
-## 🔧 Instalação
-
-1. Clone o repositório:
-```bash
-git clone <url-do-repositorio>
-cd api-rest-login
+```
+api-rest-login/
+├── src/
+│   ├── app.js
+│   ├── server.js
+│   ├── config/
+│   │   └── swagger.js
+│   ├── controllers/
+│   │   └── authController.js
+│   ├── models/
+│   │   └── User.js
+│   └── routes/
+│       └── auth.js
+├── test/
+│   ├── functional/
+│   │   └── login.test.js
+│   └── performance/
+│       └── login.perf.js
+├── package.json
+├── README.md
+└── ...
 ```
 
-2. Instale as dependências:
+---
+
+## Objetivo de cada grupo de arquivos
+
+- **src/**: Código-fonte da API.
+  - **app.js**: Configuração principal do Express (middlewares, rotas, etc).
+  - **server.js**: Inicialização do servidor (escuta na porta).
+  - **config/**: Configurações auxiliares (ex: Swagger).
+  - **controllers/**: Lógica dos endpoints.
+  - **models/**: Modelos de dados em memória.
+  - **routes/**: Definição das rotas da API.
+- **test/functional/**: Testes automatizados de integração e comportamento da API usando Mocha, Chai e Supertest.
+- **test/performance/**: Scripts de teste de carga/performance usando K6.
+- **package.json**: Dependências e scripts do projeto.
+
+---
+
+## Modo de instalação e de execução do projeto
+
+### 1. Instalação
+
+Clone o repositório e instale as dependências:
+
 ```bash
+git clone https://github.com/andressabessa/api-rest-login.git
+cd api-rest-login
 npm install
 ```
 
-## 🚀 Como Executar
+### 2. Execução da API
 
-### Desenvolvimento
+Para rodar a API em modo desenvolvimento (com hot reload):
+
 ```bash
 npm run dev
 ```
 
-### Produção
+Para rodar em modo produção:
+
 ```bash
 npm start
 ```
 
-### Testes
+Acesse a documentação Swagger em:  
+[http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+
+---
+
+### 3. Execução dos testes funcionais
+
 ```bash
-# Executar todos os testes
 npm test
-
-# Executar testes em modo watch
-npm run test:watch
-```
-# Testes de Performance com k6
-k6 run test/performance/login.perf.js
-
-## 🚀 Como Executar
-Este projeto é composto por dois servidores independentes (Backend API e Frontend Web). Ambos precisam estar rodando para a aplicação funcionar completamente.
-
-Configuração do Ambiente (.env)
-Crie um arquivo .env na raiz de cada subprojeto (backend/ e frontend/) com as seguintes variáveis:
-
-# backend/.env:
-PORT=3000
-FRONTEND_URL=http://localhost:4000
-
-# frontend/.env:
-PORT=4000
-API_BASE_URL_DEV=http://localhost:3000
-
-# Iniciar Servidores
-Iniciar o Servidor Backend (API):
-Abra um terminal, navegue até a pasta do seu backend (ex: cd src/) e execute:
-
-´´npm run dev``
-
-Você deverá ver a mensagem API Server running on port 3000.
-
-Iniciar o Servidor Frontend (Web):
-Abra outro terminal, navegue até a pasta do seu frontend (ex: cd client/) e execute:
-
-´´npm run dev``
-
-Você deverá ver a mensagem Front-end rodando em http://localhost:4000.
-
-Após ambos os servidores estarem rodando, acesse a aplicação pelo navegador: http://localhost:4000/.
-
-## 📚 Documentação da API
-
-A documentação interativa da API está disponível através do Swagger:
-
-**URL:** `http://localhost:3000/api-docs`
-
-### Endpoints Disponíveis
-
-#### POST `/api/auth/login`
-Realizar login do usuário.
-
-**Body:**
-```json
-{
-  "email": "user@example.com",
-  "password": "password"
-}
 ```
 
-**Resposta de Sucesso (200):**
-```json
-{
-  "success": true,
-  "message": "Login realizado com sucesso",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "user": {
-    "id": "1",
-    "email": "user@example.com",
-    "name": "Usuário Teste"
-  }
-}
+---
+
+### 4. Execução dos testes de performance (K6)
+
+Certifique-se de ter o [K6](https://k6.io/) instalado.
+
+Para rodar o teste de performance e acompanhar o relatório em tempo real via dashboard web, execute:
+
+```bash
+K6_WEB_DASHBOARD=true k6 run test/performance/login.perf.js
 ```
 
-#### POST `/api/auth/remember-password`
-Solicitar lembrança de senha.
+Para exportar o relatório em HTML ao final do teste, use:
 
-**Body:**
-```json
-{
-  "email": "user@example.com"
-}
+```bash
+K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=html-report.html k6 run test/performance/login.perf.js
 ```
 
-#### GET `/api/auth/verify-token`
-Verificar se o token é válido.
+O arquivo `html-report.html` será gerado ao final do teste.
 
-**Headers:**
-```
-Authorization: Bearer <token>
-```
-
-#### GET `/health`
-Verificar status da API.
-
-## 🧪 Testes Automatizados
-
-O projeto inclui testes automatizados para todas as funcionalidades principais:
-
-### 1. Testes de Login com Sucesso
-- ✅ Login com credenciais válidas
-- ✅ Validação de campos obrigatórios
-
-### 2. Testes de Login Inválido
-- ✅ Credenciais incorretas
-- ✅ Email inexistente
-- ✅ Contagem de tentativas restantes
-
-### 3. Testes de Bloqueio de Conta
-- ✅ Bloqueio após 3 tentativas
-- ✅ Manutenção do bloqueio com credenciais corretas
-- ✅ Desbloqueio após período de tempo
-
-### 4. Testes de Lembrar Senha
-- ✅ Recuperação para usuário existente
-- ✅ Validação de email obrigatório
-- ✅ Usuário inexistente
-
-### 5. Testes de Verificação de Token
-- ✅ Token válido
-- ✅ Token ausente
-- ✅ Token inválido
-
-## 📊 Cobertura de Testes
-
-Os testes cobrem os seguintes cenários:
-
-- **Cenários de Sucesso:** Login válido, recuperação de senha
-- **Cenários de Erro:** Credenciais inválidas, campos obrigatórios
-- **Cenários de Segurança:** Bloqueio de conta, validação de token
-- **Cenários de Validação:** Dados de entrada, formatos de resposta
-
-## 🔐 Dados de Teste
-
-**Usuário padrão para testes:**
-- **Email:** `user@example.com`
-- **Senha:** `password`
-
-## 📁 Estrutura do Projeto
-
-```
-api-rest-login/
-├── src/                  # Pasta do servidor API
-│   │   ├── app.js
-│   │   ├── config/
-│   │   ├── controllers/
-│   │   ├── models/
-│   │   └── routes/
-│   ├── test/
-│   │   └── ...
-│   ├── .env                  # Variáveis de ambiente do Backend
-│   └── package.json
-├── client/                 # Pasta da aplicação web Frontend
-│   ├── app.js                # Servidor Express para o Frontend
-│   ├── routes/
-│   │   └── login.js          # Rotas de renderização de páginas
-│   ├── views/
-│   │   ├── login.ejs         # Templates EJS
-│   │   ├── home.ejs
-│   │   └── remember-password.ejs
-│   ├── public/
-│   │   ├── css/
-│   │   │   └── style.css
-│   │   └── js/
-│   │       └── login.js      # Script JavaScript do frontend
-│   ├── .env                  # Variáveis de ambiente do Frontend
-│   └── package.json
-├── package.json (geral)      
-└── README.md
-```
-
-### Configurações de Segurança
-- **Máximo de tentativas:** 3
-- **Tempo de bloqueio:** 15 minutos
-- **Expiração do token:** 24 horas
-
-## 🚨 Observações Importantes
-
-⚠️ **Este projeto é destinado apenas para estudos de Teste de Software e não deve ser usado em produção.**
-
-- Os dados são armazenados em memória (não há persistência)
-- A chave JWT está hardcoded no código
-- Não há validação robusta de entrada
-- Não há rate limiting implementado
-
-## 🤝 Contribuição
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📝 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
-
-## 📞 Suporte
-
-Para dúvidas ou sugestões, abra uma issue no repositório.
+---
